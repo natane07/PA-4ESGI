@@ -5,10 +5,7 @@ import pandas as pd
 import pickle
 import boto3
 from os import path
-
-BUCKET_NAME = 'data-immo'
-REGION_FILE_NAME = 'departments.csv'
-BUCKET_NAME_TEST = 'natane-test'
+import config
 
 def train_model(df_ml):
     df_ml = df_ml[['latitude', 'longitude', 'surface_reelle_bati', 'prix_metre_carre', 'code_region', 'prix_moyen_cartier']]
@@ -34,4 +31,4 @@ def load_file_in_s3(name_file, path_aws):
     temp_file_path = './' + name_file
     if path.exists(temp_file_path):
         with open(temp_file_path, "rb") as f:
-            s3.upload_fileobj(f, BUCKET_NAME_TEST, path_aws)
+            s3.upload_fileobj(f, config.BUCKET_NAME, path_aws)

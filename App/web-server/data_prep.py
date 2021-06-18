@@ -6,32 +6,29 @@ from os import path
 from sklearn.neighbors import BallTree
 import numpy as np
 import time
-
-BUCKET_NAME = 'data-immo'
-REGION_FILE_NAME = 'departments.csv'
-BUCKET_NAME_TEST = 'natane-test'
-
+import pickle
+import config
 
 def download_files_etalab():
   years_files = ['2016', '2017', '2018', '2019', '2020']
   for year in years_files:
     url_files = "https://files.data.gouv.fr/geo-dvf/latest/csv/" + year + "/full.csv.gz"
     name_file = "full-" + year +".csv.gz"
-    path_file = './' + name_file
+    path_file = './data/' + name_file
     urllib.request.urlretrieve(url_files, path_file)
 
 def download_file_region():
     s3 = boto3.client('s3')
-    temp_file_path = './' + REGION_FILE_NAME
+    temp_file_path = './data/' + config.REGION_FILE_NAME
     if not path.exists(temp_file_path):
-        s3.download_file(BUCKET_NAME, REGION_FILE_NAME, temp_file_path)
+        s3.download_file(config.BUCKET_NAME, config.REGION_FILE_NAME, temp_file_path)
 
 def read_file_region():
-    file_regions = "./departments.csv"
+    file_regions = "./data/departments.csv"
     return pd.read_csv(file_regions)
 
 def import_files_in_dict(year):
-  path_file = './full-' + year + '.csv.gz'
+  path_file = './data/full-' + year + '.csv.gz'
   df = pd.read_csv(path_file, compression='gzip')
   return df
 
@@ -92,12 +89,12 @@ def load_file_in_s3(name_file, path_aws):
     temp_file_path = './' + name_file
     if path.exists(temp_file_path):
         with open(temp_file_path, "rb") as f:
-            s3.upload_fileobj(f, BUCKET_NAME_TEST, path_aws)
+            s3.upload_fileobj(f, config.BUCKET_NAME, path_aws)
 
 def download_file_s3(path_file_aws, name_file):
     s3 = boto3.client('s3')
     temp_file_path = './' + name_file
-    s3.download_file(BUCKET_NAME_TEST, path_file_aws, temp_file_path)
+    s3.download_file(config.BUCKET_NAME, path_file_aws, temp_file_path)
 
 
 def create_all_model_ball_tree_region(df_immo_maison):
@@ -111,6 +108,11 @@ def create_all_model_ball_tree_region(df_immo_maison):
         data = df_immo_maison[df_immo_maison.code_region == regions[k]]
         data = data.reset_index(drop=True)
         models[k] = BallTree(data[['latitude', 'longitude']].values, leaf_size=2, metric='haversine')
+
+        name_file_model = "model_balltree_region_" + str(regions[k]) + ".p"
+        pickle.dump(models[k], open("./model_balltree/" + name_file_model, "wb"))
+        load_file_in_s3("model_balltree/" + name_file_model, "model_balltree/" + name_file_model)
+
         data = df_immo_maison[df_immo_maison.code_region == regions[k]]
         data = data.reset_index(drop=True)
         dist, indices = models[k].query(data[['latitude', 'longitude']].values, k=10)
@@ -122,8 +124,10 @@ def create_all_model_ball_tree_region(df_immo_maison):
         a = a / 10
         data['prix_moyen_cartier'] = a.values
         data.sort_values(['id_mutation', 'latitude', 'longitude'])
-        data.to_csv("./models/appart_region_" + regions[k] + ".csv", index=False, header=True)
-        load_file_in_s3("models/appart_region_" + regions[k] + ".csv", "/models/appart_region_" + regions[k] + ".csv")
+
+        data.to_csv("./data-region/data_region_" + regions[k] + ".csv", index=False, header=True)
+        load_file_in_s3("data-region/data_region_" + regions[k] + ".csv", "data-region/data_region_" + regions[k] + ".csv")
+
         if len(df_prepare_ml) == 0:
             df_prepare_ml = data
         else:
