@@ -1,0 +1,12 @@
+pip install -U flask-cors 3.0.10
+numpy 1.20.2
+python 3.8.5
+flask 1.1.2
+scikit-learn 0.23.2
+boto 2.49
+boto3 1.14.63
+pandas 1.2.3
+pip 20.3.3
+pickle 0.7.5
+urllib3 1.26.3
+git
