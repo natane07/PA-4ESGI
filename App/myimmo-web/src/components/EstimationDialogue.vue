@@ -28,29 +28,58 @@
                 Mon bien immobilier
             </div>
             <div class="title font-weight-regular grey--text" v-if="infoAdresse != undefined">
-             {{ infoAdresse.properties.label }}
+             <b>Adresse: </b> {{ infoAdresse.properties.label }}
             </div>
             <div class="title font-weight-regular grey--text" v-if="infoAdresse != undefined">
-             long: {{ infoAdresse.geometry.coordinates[0] }}, lat: {{infoAdresse.geometry.coordinates[1]}}
+             <b>Coordonées: </b> long: {{ infoAdresse.geometry.coordinates[0] }}, lat: {{infoAdresse.geometry.coordinates[1]}}
+            </div>
+            <div class="title font-weight-regular grey--text" v-if="surface != undefined">
+             <b>Surface du bien: </b> {{ surface }} m²
             </div>
         </v-card-title>
 
         <v-divider class="mt-6 mx-4"></v-divider>
 
-        <v-card-title>Estimation</v-card-title>
+        <v-card-title v-if="loading == false">Estimation en cours</v-card-title>
+        <v-card-title v-else>Estimation</v-card-title>
         <v-card-text>
             <v-row
             justify="center"
             align="center">
-                <v-chip 
+              <v-btn
+                elevation="17"
+                fab
+                loading
+                v-if="loading == false"
+              ></v-btn>
+              <div v-else>
+                <v-row>
+                  <v-col cols="4">
+                  <b>Code region :</b> {{ api.code_region }}
+                  </v-col>
+                  <v-col cols="4">
+                    <b>Prix moyen du cartier :</b> {{ api.prix_moyen_cartier }}
+                  </v-col>
+                  <v-col cols="4">
+                    <b>Distance moyenne des biens à proximités :</b> {{ api.distance_moyenne }} km
+                  </v-col>
+                </v-row>
+              <v-row
+              justify="center"
+              align="center">
+              <v-chip 
                 class="text-center ma-2"
                 color="green"
                 outlined
                 large
+                loading
                 >
                     <v-icon left>mdi-currency-eur</v-icon>
-                    {{ valueEstimate }} /m²
+                    Valeur estimer : {{ valueEstimate }}€ /m² soit {{valueEstimate * surface }}€ le bien
                 </v-chip>
+                </v-row>
+              </div>
+
             </v-row>
         </v-card-text>
 
@@ -76,7 +105,9 @@ export default {
     data () {
       return {
         dialog: false,
-        valueEstimate: 1500
+        valueEstimate: 0,
+        loading: false,
+        api: {}
       }
     },
     props: {
@@ -85,8 +116,34 @@ export default {
     },
     methods: {
         estimate () {
-            console.log(this.infoAdresse)
-            console.log(this.surface)
+          console.log(this.infoAdresse)
+          console.log(this.surface)
+          this.dialog = false
+          this.loading = false
+          axios.post(
+            'http://127.0.0.1:5000/predict',
+            {
+              latitude: this.infoAdresse.geometry.coordinates[1],
+              longitude: this.infoAdresse.geometry.coordinates[0],
+              code_departement: (this.infoAdresse.properties.postcode).substr(0,2),
+              surface_reelle_bati: this.surface
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }).then((result) => {
+              this.dialog = true
+              this.loading = true
+              console.log(result.data)
+              var data = result.data
+              this.api = data
+              this.valueEstimate = data.prediction
+            }).catch(function () {
+              console.log('FAILURE!!')
+              this.dialog = true
+              this.loading = false
+            })
         }
     }
 }
