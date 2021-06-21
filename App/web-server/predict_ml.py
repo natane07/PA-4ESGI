@@ -5,6 +5,7 @@ import data_prep
 import pandas as pd
 import numpy as np
 import config
+import joblib
 
 def load_data_region():
     liste_code_regions = ['01', '02', '03', '04', '11', '24', '27', '28', '32', '44', '52', '53', '75', '76', '84', '93', '94']
@@ -80,8 +81,9 @@ def load_model():
     temp_file_path = './' + config.MODEL_ML_FILE_NAME
     if not path.exists(temp_file_path):
         s3.download_file(config.BUCKET_NAME, config.MODEL_ML_FILE_NAME, temp_file_path)
-    with open(temp_file_path, 'rb') as f:
-        model = pickle.load(f)
+        model = joblib.load(temp_file_path)
+    # with open(temp_file_path, 'rb') as f:
+    #     model = pickle.load(f)
     return model
 
 def predict_model(data):
