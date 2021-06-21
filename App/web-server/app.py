@@ -3,8 +3,10 @@ import predict_ml
 import data_prep
 import ml
 import predict_ml
-app = Flask(__name__)
+from flask_cors import CORS
 
+app = Flask(__name__)
+CORS(app)
 
 @app.route('/execute_script')
 def execute_script_data_and_ml():
