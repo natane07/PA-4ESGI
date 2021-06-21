@@ -75,7 +75,8 @@ def load_model_balltree(temp_file_path):
 
 
 def load_model():
-    s3 = boto3.client('s3')
+    conn = boto3.session.Session(config.AWS_ACCESS_KEY, config.AWS_SECRET_KEY)
+    s3 = conn.client('s3')
     temp_file_path = './' + config.MODEL_ML_FILE_NAME
     if not path.exists(temp_file_path):
         s3.download_file(config.BUCKET_NAME, config.MODEL_ML_FILE_NAME, temp_file_path)

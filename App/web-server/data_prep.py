@@ -18,7 +18,8 @@ def download_files_etalab():
     urllib.request.urlretrieve(url_files, path_file)
 
 def download_file_region():
-    s3 = boto3.client('s3')
+    conn = boto3.session.Session(config.AWS_ACCESS_KEY, config.AWS_SECRET_KEY)
+    s3 = conn.client('s3')
     temp_file_path = './data/' + config.REGION_FILE_NAME
     if not path.exists(temp_file_path):
         s3.download_file(config.BUCKET_NAME, config.REGION_FILE_NAME, temp_file_path)
@@ -85,14 +86,16 @@ def data_prep(df_immo):
     return create_all_model_ball_tree_region(df_immo_maison)
 
 def load_file_in_s3(name_file, path_aws):
-    s3 = boto3.client('s3')
+    conn = boto3.session.Session(config.AWS_ACCESS_KEY, config.AWS_SECRET_KEY)
+    s3 = conn.client('s3')
     temp_file_path = './' + name_file
     if path.exists(temp_file_path):
         with open(temp_file_path, "rb") as f:
             s3.upload_fileobj(f, config.BUCKET_NAME, path_aws)
 
 def download_file_s3(path_file_aws, name_file):
-    s3 = boto3.client('s3')
+    conn = boto3.session.Session(config.AWS_ACCESS_KEY, config.AWS_SECRET_KEY)
+    s3 = conn.client('s3')
     temp_file_path = './' + name_file
     s3.download_file(config.BUCKET_NAME, path_file_aws, temp_file_path)
 
