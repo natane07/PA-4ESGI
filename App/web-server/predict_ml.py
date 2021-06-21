@@ -12,7 +12,7 @@ def load_data_region():
     df_immo_region = []
     for code_region in liste_code_regions:
         file_regions = "./data-region/data_region_" + code_region + ".csv"
-        df_regions = pd.read_csv(file_regions)
+        df_regions = pd.read_csv(file_regions, low_memory = True)
 
         if len(df_immo_region) == 0:
             df_immo_region = df_regions
@@ -53,7 +53,7 @@ def prepare_data(body_dict):
     # Chargement des données de la région
     data_prep.download_file_s3("data-region/data_region_" + code_region + ".csv", "data-region/data_region_" + code_region + ".csv")
     file_regions = "./data-region/data_region_" + code_region + ".csv"
-    data_region = pd.read_csv(file_regions)
+    data_region = pd.read_csv(file_regions, low_memory = True)
     # data_region = load_data_region()
 
     # Utilisation du modéle

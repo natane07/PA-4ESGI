@@ -26,11 +26,11 @@ def download_file_region():
 
 def read_file_region():
     file_regions = "./data/departments.csv"
-    return pd.read_csv(file_regions)
+    return pd.read_csv(file_regions, low_memory = True)
 
 def import_files_in_dict(year):
   path_file = './data/full-' + year + '.csv.gz'
-  df = pd.read_csv(path_file, compression='gzip')
+  df = pd.read_csv(path_file, compression='gzip', low_memory = True)
   return df
 
 def filter_data(df):
