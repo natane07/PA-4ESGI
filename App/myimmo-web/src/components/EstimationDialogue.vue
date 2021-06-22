@@ -121,7 +121,7 @@ export default {
           this.dialog = false
           this.loading = false
           axios.post(
-            'http://127.0.0.1:5000/predict',
+            'http://13.37.61.224:5000/predict',
             {
               latitude: this.infoAdresse.geometry.coordinates[1],
               longitude: this.infoAdresse.geometry.coordinates[0],
