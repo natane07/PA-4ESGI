@@ -56,9 +56,9 @@ def data_clean():
 
 def data_region():
     code_regions = ["11", "24", "27", "28", "32", "44", "52", "53", "75", "76", "84", "93", "94"]
-    name_regions = ["Ile-de-France", "Centre-Val de Loire", "Bourgogne-Franche-Comté", "Normandie", "Hauts-de-France",
-                    "Grand Est", "Pays de la Loire", "Bretagne", "Nouvelle-Aquitaine", "Occitanie",
-                    "Auvergne-Rhone-Alpes", "Provence-Alpes-Cote d Azur", "Corse"]
+    name_regions = ["Ile-de-France", "Centre-Val-de-Loire", "Bourgogne-Franche-Comte", "Normandie", "Hauts-de-France",
+                    "Grand-Est", "Pays-de-la-Loire", "Bretagne", "Nouvelle-Aquitaine", "Occitanie",
+                    "Auvergne-Rhone-Alpes", "Provence-Alpes-Cote-d-Azur", "Corse"]
     df_name_regions = pd.DataFrame(code_regions)
     df_name_regions['code_regions'] = code_regions
     df_name_regions["code_regions"] = df_name_regions["code_regions"].apply(lambda x: '0' + x if len(x) == 1 else x)
@@ -81,7 +81,8 @@ def moyenne_val_fonciere_region(df_immo_region):
 
 def moyenne_mcarre_bien_region(df_immo_region):
     col_gp = ['code_region', 'name_regions']
-    df_prix_metre_carre_regions = df_immo_region.groupby(col_gp, as_index=False).agg({'prix_metre_carre': 'mean'})
+    df_immo_region_filter = df_immo_region[(df_immo_region["prix_metre_carre"] <= 50000)]
+    df_prix_metre_carre_regions = df_immo_region_filter.groupby(col_gp, as_index=False).agg({'prix_metre_carre': 'mean'})
     df_prix_metre_carre_regions['prix_metre_carre'] = round(df_prix_metre_carre_regions['prix_metre_carre'], 2)
     df_prix_metre_carre_regions['prix_metre_carre'] = df_prix_metre_carre_regions["prix_metre_carre"].apply(
         lambda x: float(x))
@@ -132,7 +133,8 @@ def moyenne_val_fonciere_departement(df_immo_region):
 def moyenne_mcarre_bien_departement(df_immo_region):
     code_regions = ["11", "24", "27", "28", "32", "44", "52", "53", "75", "76", "84", "93", "94"]
     col_gp = ['code_region', 'name_regions', 'name']
-    df_prix_metre_carre_regions = df_immo_region.groupby(col_gp, as_index=False).agg({'prix_metre_carre': 'mean'})
+    df_immo_region_filter = df_immo_region[(df_immo_region["prix_metre_carre"] <= 50000)]
+    df_prix_metre_carre_regions = df_immo_region_filter.groupby(col_gp, as_index=False).agg({'prix_metre_carre': 'mean'})
     df_prix_metre_carre_regions['prix_metre_carre'] = round(df_prix_metre_carre_regions['prix_metre_carre'], 2)
     df_prix_metre_carre_regions['prix_metre_carre'] = df_prix_metre_carre_regions["prix_metre_carre"].apply(
         lambda x: float(x))
