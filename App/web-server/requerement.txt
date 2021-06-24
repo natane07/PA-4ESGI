@@ -17,6 +17,9 @@ pip==20.3.3
 
 python3 -m flask run --host=0.0.0.0
 
+openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
+python3 -m flask run --host=0.0.0.0 --cert=cert.pem --key=key.pem 
+
 wget http://13.37.61.224:5000/
 */1 * * * * wget http://13.37.61.224:5000/
 * * * 5,12 * wget http://13.37.61.224:5000/

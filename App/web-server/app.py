@@ -3,10 +3,16 @@ import predict_ml
 import data_prep
 import ml
 import predict_ml
+import data_vis
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
+
+@app.route('/data_visualition')
+def execute_data_visualisation():
+    data_vis.data_vis_execute()
+    return "Data visualition generate"
 
 @app.route('/execute_script')
 def execute_script_data_and_ml():
