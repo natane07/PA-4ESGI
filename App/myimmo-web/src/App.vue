@@ -8,7 +8,11 @@
 
     <v-app-bar app color="#1e1d1d">
       <!-- <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon> -->
-      <v-toolbar-title style="color:#e4a362;">MyImmo</v-toolbar-title>
+      <v-toolbar-title style="color:#e4a362;">
+        MyImmo
+        <v-btn @click="$router.push({ name: 'Home' })" color="#1e1d1d" style="color:#e4a362;">Home</v-btn>
+        <v-btn @click="$router.push({ name: 'Data' })" color="#1e1d1d" style="color:#e4a362;">Data</v-btn>
+        </v-toolbar-title>
     </v-app-bar>
 
     <v-main class="grey lighten-3">

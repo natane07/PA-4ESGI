@@ -12,8 +12,8 @@ const routes = [
     component: Home
   },
   {
-    path: '/test',
-    name: 'Test',
+    path: '/data',
+    name: 'Data',
     component: About
   },
   {
@@ -27,7 +27,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: '',
+  mode: 'history',
   routes
 })
 

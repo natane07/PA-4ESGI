@@ -1,151 +1,127 @@
 <template>
-  <v-container>
-    <v-row class="text-center">
-      <v-col cols="12">
-        <v-img
-          :src="require('../assets/immo.png')"
-          class="my-3"
-          contain
-          height="200"
-        />
-      </v-col>
-
-      <v-col class="mb-4">
-        <h1 class="display-2 font-weight-bold mb-3">
-          Welcome to Vuetify
-        </h1>
-
-        <p class="subheading font-weight-regular">
-          For help and collaboration with other Vuetify developers,
-          <br>please join our online
-          <a
-            href="https://community.vuetifyjs.com"
-            target="_blank"
-          >Discord Community</a>
-        </p>
-      </v-col>
-
-      <v-col
-        class="mb-5"
-        cols="12"
+<div>
+  <v-row>
+    <v-col
+      class="text-center"
+      cols="12"
+    >
+      <h1>Restitution des données immobilieres </h1>
+    </v-col>
+    <v-col
+      class="text-center"
+      cols="12"
+    >
+      <h3><i>Données par regions</i></h3>
+    </v-col>
+    <v-col
+      class="d-flex child-flex"
+      cols="4"
+    >
+      <v-img
+        :src="`https://pa-immo-s3.s3.eu-west-3.amazonaws.com/data-vis/moyenne_des_valeurs_fonciere_par_region.png`"
+        :lazy-src="`https://pa-immo-s3.s3.eu-west-3.amazonaws.com/data-vis/moyenne_des_valeurs_fonciere_par_region.png`"
+        class="grey lighten-2"
       >
-        <h2 class="headline font-weight-bold mb-3">
-          What's next?
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(next, i) in whatsNext"
-            :key="i"
-            :href="next.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ next.text }}
-          </a>
-        </v-row>
-      </v-col>
-
-      <v-col
-        class="mb-5"
-        cols="12"
+      </v-img>
+    </v-col>
+    <v-col cols="4">
+      <v-img
+        :src="`https://pa-immo-s3.s3.eu-west-3.amazonaws.com/data-vis/donnee_reparties_france_par_region.PNG`"
+        :lazy-src="`https://pa-immo-s3.s3.eu-west-3.amazonaws.com/data-vis/donnee_reparties_france_par_region.PNG`"
+        class="grey lighten-2"
       >
-        <h2 class="headline font-weight-bold mb-3">
-          Important Links
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(link, i) in importantLinks"
-            :key="i"
-            :href="link.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ link.text }}
-          </a>
-        </v-row>
-      </v-col>
-
-      <v-col
-        class="mb-5"
-        cols="12"
+      </v-img>
+    </v-col>
+    <v-col
+      class="d-flex child-flex"
+      cols="4"
+    >
+      <v-img
+        :src="`https://pa-immo-s3.s3.eu-west-3.amazonaws.com/data-vis/moyenne_du_prix_m2_par_region.png`"
+        :lazy-src="`https://pa-immo-s3.s3.eu-west-3.amazonaws.com/data-vis/moyenne_du_prix_m2_par_region.png`"
+        aspect-ratio="1"
+        class="grey lighten-2"
       >
-        <h2 class="headline font-weight-bold mb-3">
-          Ecosystem
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(eco, i) in ecosystem"
-            :key="i"
-            :href="eco.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ eco.text }}
-          </a>
-        </v-row>
-      </v-col>
+      </v-img>
+    </v-col>
     </v-row>
-  </v-container>
+  <br><br><br>
+  <v-row>
+    <v-col
+      class="text-center"
+      cols="12"
+    >
+      <h3><i>Données par départements</i></h3>
+    </v-col>
+    <v-col cols="12">
+      <v-select
+          :items="items"
+          v-model="itemsValue"
+          solo
+          prepend-icon="mdi-map"
+        ></v-select>
+    </v-col>
+    <v-col
+      class="d-flex child-flex"
+      cols="4"
+    >
+      <v-img
+        :src="`https://pa-immo-s3.s3.eu-west-3.amazonaws.com/data-vis/moyenne_des_valeurs_fonciere_${itemsValue}.png`"
+        :lazy-src="`https://pa-immo-s3.s3.eu-west-3.amazonaws.com/data-vis/moyenne_des_valeurs_fonciere_${itemsValue}.png`"
+        class="grey lighten-2"
+
+      >
+      </v-img>
+    </v-col>
+    <v-col
+      class="d-flex child-flex"
+      cols="4"
+    >
+      <v-img
+        :src="`https://pa-immo-s3.s3.eu-west-3.amazonaws.com/data-vis/moyenne_des_surface_bien_${itemsValue}.png`"
+        :lazy-src="`https://pa-immo-s3.s3.eu-west-3.amazonaws.com/data-vis/moyenne_des_surface_bien_${itemsValue}.png`"
+        class="grey lighten-2"
+      >
+      </v-img>
+    </v-col>
+    <v-col
+      class="d-flex child-flex"
+      cols="4"
+    >
+      <v-img
+        :src="`https://pa-immo-s3.s3.eu-west-3.amazonaws.com/data-vis/moyenne_du_prix_m2_${itemsValue}.png`"
+        :lazy-src="`https://pa-immo-s3.s3.eu-west-3.amazonaws.com/data-vis/moyenne_du_prix_m2_${itemsValue}.png`"
+        aspect-ratio="1"
+        class="grey lighten-2"
+      >
+      </v-img>
+    </v-col>
+        <v-col
+      cols="12"
+      align="center"
+    >
+      <v-img
+        :src="`https://pa-immo-s3.s3.eu-west-3.amazonaws.com/data-vis/donnee_reparties_france_par_departement.PNG`"
+        :lazy-src="`https://pa-immo-s3.s3.eu-west-3.amazonaws.com/data-vis/donnee_reparties_france_par_departement.PNG`"
+        class="grey lighten-2"
+        width="800px"
+      >
+      </v-img>
+    </v-col>
+    </v-row>
+</div>
 </template>
 
 <script>
   export default {
     name: 'HelloWorld',
-
     data: () => ({
-      ecosystem: [
-        {
-          text: 'vuetify-loader',
-          href: 'https://github.com/vuetifyjs/vuetify-loader',
-        },
-        {
-          text: 'github',
-          href: 'https://github.com/vuetifyjs/vuetify',
-        },
-        {
-          text: 'awesome-vuetify',
-          href: 'https://github.com/vuetifyjs/awesome-vuetify',
-        },
+      items: [
+        "Ile-de-France", "Centre-Val-de-Loire", "Bourgogne-Franche-Comte", "Normandie", "Hauts-de-France",
+        "Grand-Est", "Pays-de-la-Loire", "Bretagne", "Nouvelle-Aquitaine", "Occitanie",
+        "Auvergne-Rhone-Alpes", "Provence-Alpes-Cote-d-Azur", "Corse"
       ],
-      importantLinks: [
-        {
-          text: 'Documentation',
-          href: 'https://vuetifyjs.com',
-        },
-        {
-          text: 'Chat',
-          href: 'https://community.vuetifyjs.com',
-        },
-        {
-          text: 'Made with Vuetify',
-          href: 'https://madewithvuejs.com/vuetify',
-        },
-        {
-          text: 'Twitter',
-          href: 'https://twitter.com/vuetifyjs',
-        },
-        {
-          text: 'Articles',
-          href: 'https://medium.com/vuetify',
-        },
-      ],
-      whatsNext: [
-        {
-          text: 'Explore components',
-          href: 'https://vuetifyjs.com/components/api-explorer',
-        },
-        {
-          text: 'Select a layout',
-          href: 'https://vuetifyjs.com/getting-started/pre-made-layouts',
-        },
-        {
-          text: 'Frequently Asked Questions',
-          href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
-        },
-      ],
+      itemsValue: "Ile-de-France"
     }),
   }
 </script>

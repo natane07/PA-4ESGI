@@ -72,8 +72,9 @@ def moyenne_val_fonciere_region(df_immo_region):
     df_valeur_fonciere_regions['valeur_fonciere'] = df_valeur_fonciere_regions["valeur_fonciere"].apply(
         lambda x: float(x))
     df_valeur_fonciere_regions = df_valeur_fonciere_regions.sort_values('valeur_fonciere')
-    df_valeur_fonciere_regions.plot(x="name_regions", y="valeur_fonciere", figsize=(12, 12), kind='bar',
+    ax = df_valeur_fonciere_regions.plot(x="name_regions", y="valeur_fonciere", figsize=(12, 12), kind='bar',
                                     title="Moyenne des valeurs fonciere par region")
+    ax.get_legend().remove()
     fname = './data-vis/moyenne_des_valeurs_fonciere_par_region.png'
     plt.savefig(fname, dpi=72, bbox_inches='tight')
     path_aws = 'data-vis/moyenne_des_valeurs_fonciere_par_region.png'
@@ -87,8 +88,9 @@ def moyenne_mcarre_bien_region(df_immo_region):
     df_prix_metre_carre_regions['prix_metre_carre'] = df_prix_metre_carre_regions["prix_metre_carre"].apply(
         lambda x: float(x))
     df_prix_metre_carre_regions = df_prix_metre_carre_regions.sort_values('prix_metre_carre')
-    df_prix_metre_carre_regions.plot(x="name_regions", y="prix_metre_carre", figsize=(12, 12), kind='bar',
+    ax = df_prix_metre_carre_regions.plot(x="name_regions", y="prix_metre_carre", figsize=(12, 12), kind='bar',
                                      title="Moyenne du m2 d'un bien par region")
+    ax.get_legend().remove()
     fname = './data-vis/moyenne_du_prix_m2_par_region.png'
     plt.savefig(fname, dpi=72, bbox_inches='tight')
     path_aws = 'data-vis/moyenne_du_prix_m2_par_region.png'
@@ -100,8 +102,9 @@ def moyenne_surface_bien_region(df_immo_region):
     df_surface_reelle_bati_regions['surface_reelle_bati'] = round(df_surface_reelle_bati_regions['surface_reelle_bati'], 2)
     df_surface_reelle_bati_regions['surface_reelle_bati'] = df_surface_reelle_bati_regions["surface_reelle_bati"].apply(lambda x: float(x))
     df_surface_reelle_bati_regions = df_surface_reelle_bati_regions.sort_values('surface_reelle_bati')
-    df_surface_reelle_bati_regions.plot(x="name_regions", y="surface_reelle_bati", figsize=(12, 12),
-                                        kind='bar', title="Moyenne des valeurs fonciere par region")
+    ax = df_surface_reelle_bati_regions.plot(x="name_regions", y="surface_reelle_bati", figsize=(12, 12),
+                                        kind='bar', title="Moyenne de la surface d'un bien par region")
+    ax.get_legend().remove()
     fname = './data-vis/moyenne_des_surfaces_bien_par_region.png'
     plt.savefig(fname, dpi=72, bbox_inches='tight')
     path_aws = 'data-vis/moyenne_des_surfaces_bien_par_region.png'
@@ -120,6 +123,7 @@ def moyenne_val_fonciere_departement(df_immo_region):
             title = "Moyenne des valeurs fonciere en " + df_reg_dep['name_regions'].values[0]
             fname = "./data-vis/moyenne_des_valeurs_fonciere_" + df_reg_dep['name_regions'].values[0] + '.png'
             ax = df_reg_dep.plot(x="name", y="valeur_fonciere", figsize=(12, 12), kind='bar', title=title)
+            ax.get_legend().remove()
             _nb = 0
             for i in df_reg_dep["valeur_fonciere"].values:
                 pct = i
@@ -145,6 +149,7 @@ def moyenne_mcarre_bien_departement(df_immo_region):
             title = "Moyenne du m2 d'un bien en " + df_reg_dep['name_regions'].values[0]
             fname = "./data-vis/moyenne_du_prix_m2_" + df_reg_dep['name_regions'].values[0] + '.png'
             ax = df_reg_dep.plot(x="name", y="prix_metre_carre", figsize=(12, 12), kind='bar', title=title)
+            ax.get_legend().remove()
             _nb = 0
             for i in df_reg_dep["prix_metre_carre"].values:
                 pct = i
@@ -168,6 +173,7 @@ def moyenne_surface_bien_departement(df_immo_region):
             title = "Moyenne de la surface d'un bien en " + df_reg_dep_surf['name_regions'].values[0]
             fname = "./data-vis/moyenne_des_surface_bien_" + df_reg_dep_surf['name_regions'].values[0] + '.png'
             ax = df_reg_dep_surf.plot(x="name", y="surface_reelle_bati", figsize=(12, 12), kind='bar', title=title)
+            ax.get_legend().remove()
             _nb = 0
             for i in df_reg_dep_surf["surface_reelle_bati"].values:
                 pct = i
