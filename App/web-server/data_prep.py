@@ -8,14 +8,18 @@ import numpy as np
 import time
 import pickle
 import config
+import datetime
 
 def download_files_etalab():
-  years_files = ['2016', '2017', '2018', '2019', '2020']
-  for year in years_files:
-    url_files = "https://files.data.gouv.fr/geo-dvf/latest/csv/" + year + "/full.csv.gz"
-    name_file = "full-" + year +".csv.gz"
-    path_file = './data/' + name_file
-    urllib.request.urlretrieve(url_files, path_file)
+    date = datetime.datetime.now()
+    yearNow = date.year
+    for i in range(1, 6):
+        year = str(yearNow - i)
+        print(year)
+        url_files = "https://files.data.gouv.fr/geo-dvf/latest/csv/" + year + "/full.csv.gz"
+        name_file = "full-" + year + ".csv.gz"
+        path_file = './data/' + name_file
+        urllib.request.urlretrieve(url_files, path_file)
 
 def download_file_region():
     conn = boto3.session.Session(config.AWS_ACCESS_KEY, config.AWS_SECRET_KEY)

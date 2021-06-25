@@ -5,6 +5,7 @@ from os import path
 import matplotlib.pyplot as plt
 import boto3
 import config
+import datetime
 
 def load_file_public_in_s3(name_file, path_aws):
     conn = boto3.session.Session(config.AWS_ACCESS_KEY, config.AWS_SECRET_KEY)
@@ -15,13 +16,16 @@ def load_file_public_in_s3(name_file, path_aws):
             s3.upload_fileobj(f, config.BUCKET_NAME, path_aws, ExtraArgs={'ACL':'public-read'})
 
 def download_files_etalab():
-  years_files = ['2016', '2017', '2018', '2019', '2020']
-  for year in years_files:
-    url_files = "https://files.data.gouv.fr/geo-dvf/latest/csv/" + year + "/full.csv.gz"
-    name_file = "full-" + year +".csv.gz"
-    path_file = './data/' + name_file
-    if not path.exists(path_file):
-        urllib.request.urlretrieve(url_files, path_file)
+    date = datetime.datetime.now()
+    yearNow = date.year
+    for i in range(1, 6):
+        year = str(yearNow - i)
+        print(year)
+        url_files = "https://files.data.gouv.fr/geo-dvf/latest/csv/" + year + "/full.csv.gz"
+        name_file = "full-" + year + ".csv.gz"
+        path_file = './data/' + name_file
+        if not path.exists(path_file):
+            urllib.request.urlretrieve(url_files, path_file)
 
 def group_by_data(df):
   col_gp = ['id_mutation', 'date_mutation', 'nature_mutation', 'code_postal', 'code_commune', 'code_region', 'code_departement', 'name',
