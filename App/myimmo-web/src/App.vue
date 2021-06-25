@@ -12,6 +12,7 @@
         MyImmo
         <v-btn @click="$router.push({ name: 'Home' })" color="#1e1d1d" style="color:#e4a362;">Home</v-btn>
         <v-btn @click="$router.push({ name: 'Data' })" color="#1e1d1d" style="color:#e4a362;">Data</v-btn>
+        <v-btn @click="$router.push({ name: 'Api' })" color="#1e1d1d" style="color:#e4a362;">Api</v-btn>
         </v-toolbar-title>
     </v-app-bar>
 

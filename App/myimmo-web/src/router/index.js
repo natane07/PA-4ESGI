@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
+import Api from '../components/Api.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ const routes = [
     path: '/data',
     name: 'Data',
     component: About
+  },
+  {
+    path: '/api',
+    name: 'Api',
+    component: Api
   },
   {
     path: '/about',
