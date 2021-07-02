@@ -75,7 +75,7 @@
                 loading
                 >
                     <v-icon left>mdi-currency-eur</v-icon>
-                    Valeur estimer : {{ valueEstimate }}€ /m² soit {{valueEstimate * surface }}€ le bien
+                    Valeur estimer : {{ valueEstimate }}€ /m² soit {{ Number((valueEstimate * surface).toFixed(2)) }}€ le bien
                 </v-chip>
                 </v-row>
               </div>
