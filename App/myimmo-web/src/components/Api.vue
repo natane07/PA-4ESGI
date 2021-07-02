@@ -101,7 +101,7 @@
 export default {
   methods: {
     redirect() {
-      window.open("https://pa-immo-s3.s3.eu-west-3.amazonaws.com/PA-4ESGI.postman_collection.json")
+      window.open("https://pa-immo-s3.s3.eu-west-3.amazonaws.com/PA-4ESGI.postman_collection.zip")
     },
   }
 }
