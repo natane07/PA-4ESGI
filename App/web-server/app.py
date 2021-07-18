@@ -11,11 +11,19 @@ CORS(app)
 
 @app.route('/data_visualition')
 def execute_data_visualisation():
+    """
+    Point d'entré de l'api pour générer la data visualisation
+    :return: String
+    """
     data_vis.data_vis_execute()
     return "Data visualition generate"
 
 @app.route('/execute_script')
 def execute_script_data_and_ml():
+    """
+    Point d'entré de l'api pour Telecharger/clean/préparer les data et entrainé les modèles ML
+    :return: String
+    """
     df_ml = data_prep.execute_script_to_prepare_data()
     ml.train_model(df_ml)
     return "success script execute"
@@ -23,6 +31,10 @@ def execute_script_data_and_ml():
 # @app.route('/predict')
 @app.route('/predict', methods = ['POST'])
 def predict():
+    """
+    Point d'entré de l'api pour predire le prix d'un bien via notre modèle
+    :return: JSON
+    """
     # Parse request
     body_dict = request.get_json(silent=True)
     # Preparation des données pour la prediction
