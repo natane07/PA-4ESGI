@@ -4,7 +4,7 @@
         justify="center"
       >
         <v-col cols="12">
-            <h1 align="center">Estimer votre bien immobilier avec MyImmo !</h1>
+            <h1 align="center">Estimer votre bien immobilier avec notre IA MyImmo !</h1>
         </v-col>
         <v-col cols="8">
           <v-text-field

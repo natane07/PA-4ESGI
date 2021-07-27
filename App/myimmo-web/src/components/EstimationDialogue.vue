@@ -75,7 +75,7 @@
                 loading
                 >
                     <v-icon left>mdi-currency-eur</v-icon>
-                    Valeur estimer : {{ valueEstimate }}€ /m² soit {{ Number((valueEstimate * surface).toFixed(2)) }}€ le bien
+                    Valeur estimer : {{ valueEstimate }}€ /m² soit {{ numberWithSpaces(Number((valueEstimate * surface).toFixed(2))) }}€ le bien
                 </v-chip>
                 </v-row>
               </div>
@@ -144,6 +144,11 @@ export default {
               this.dialog = true
               this.loading = false
             })
+        },
+        numberWithSpaces(x) {
+          var parts = x.toString().split(".")
+          parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+          return parts.join(".")
         }
     }
 }
